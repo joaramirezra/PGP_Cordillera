@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Map Result</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="#">PGP</a>
+    </nav>
+    
+    <div class="container mt-4">
+        <h1>Map Result</h1>
+        {% if map_selection == 'map1' %}
+            <p>You selected London!</p>
+        {% elif map_selection == 'map2' %}
+            <p>You selected China!</p>
+        {% elif map_selection == 'map3' %}
+            <p>You selected Colombia!</p>
+        {% else %}
+            <p>Invalid map selection.</p>
+        {% endif %}
+        <iframe src="{{ url_for('static', filename=map_filename) }}" height="500" width="800"></iframe>
+        <br>
+        <a href="{{ url_for('map_selection') }}" class="btn btn-primary mt-4">Back to Map Selection</a>
+    </div>
+</body>
+</html>

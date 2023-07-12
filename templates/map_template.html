@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Map Result</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="#">PGP</a>
+    </nav>
+    
+    <div class="container mt-4">
+        <h1>Map Result</h1>
+        {% if map_selection == 'map1' %}
+            <p>You selected London!</p>
+        {% elif map_selection == 'map2' %}
+            <p>You selected China!</p>
+        {% elif map_selection == 'map3' %}
+            <p>You selected Colombia!</p>
+        {% else %}
+            <p>Invalid map selection.</p>
+        {% endif %}
+        <div id="map-div">
+            {% include map_filename %}
+        </div>
+        <p id="coordinates"></p>
+        <a href="{{ url_for('map_selection') }}" class="btn btn-primary mt-4">Back to Map Selection</a>
+    </div>
+
+    <script>
+        // Access the Leaflet Map object
+        var map = window._leaflet_map;
+
+        function onMapClick(e) {
+            document.getElementById("coordinates").innerHTML = "You clicked the map at " + e.latlng;
+        }
+
+        map.on('click', onMapClick);
+    </script>
+</body>
+</html>

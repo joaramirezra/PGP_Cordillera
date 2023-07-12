@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Map Selection</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <style>
+        #map-image {
+            display: none;
+            margin-top: 20px;
+            max-width: 400px;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="#">PGP</a>
+    </nav>
+
+    <div class="container">
+        <h1 class="mt-4">Select a Map</h1>
+        <form method="POST">
+            <div class="form-group">
+                <label for="map">Choose a map:</label>
+                <select class="form-control" id="map" name="map">
+                    <option value="0">selecciona una mapa ....</option>
+                    <option value="map1">Map 1</option>
+                    <option value="map2">Map 2</option>
+                    <option value="map3">Map 3</option>
+                </select>
+            </div>
+            <img id="map-image" src="" alt="Map Image">
+            <br>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+    </div>
+
+    <script>
+        $(document).ready(function() {
+            $('#map').change(function() {
+                var selectedMap = $(this).val();
+                var imagePath = '';
+
+                // Set the image path based on the selected map
+                if (selectedMap === 'map1') {
+                    imagePath = '/static/images/map1.jpg';
+                } else if (selectedMap === 'map2') {
+                    imagePath = '/static/images/map2.jpg';
+                } else if (selectedMap === 'map3') {
+                    imagePath = '/static/images/map3.jpg';
+                }
+
+                // Update the image source and display it
+                $('#map-image').attr('src', imagePath).show();
+            });
+        });
+    </script>
+</body>
+</html>
+
+
