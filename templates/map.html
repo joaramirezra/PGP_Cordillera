@@ -40,6 +40,14 @@
             text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.7);
         }
     </style>
+<script>
+    $(document).ready(function() {
+        $(".map-image").click(function() {
+            $("#map-selection-form input[name='map']").val(this.id);
+            $("#map-selection-form").submit();
+        });
+    });
+</script>
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -57,12 +65,14 @@
         </div>
     </nav>
     
-    
     <div class="container">
         <h1 class="mt-4">Selecciona el mapa</h1>
         <div class="map-container">
-            <img class="map-image img-fluid" id="map1" src="/static/images/map1.jpg" alt="Map 1">
-            <img class="map-image img-fluid" id="map2" src="/static/images/map2.jpg" alt="Map 2">
+            <form id="map-selection-form" method="POST" action="/map">
+                <input type="hidden" name="map">
+                <img class="map-image img-fluid" id="map1" src="/static/images/map1.jpg" alt="Map 1">
+                <img class="map-image img-fluid" id="map2" src="/static/images/map2.jpg" alt="Map 2">
+            </form>
         </div>
     </div>
 

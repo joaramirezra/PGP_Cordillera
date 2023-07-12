@@ -1,28 +1,132 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Map Result</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <title>Map Game</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <style>
+        body {
+            background: #333;
+            color: #fff;
+            font-family: Arial, sans-serif;
+        }
+        #map {
+            width: 100%;
+            height: 70vh;
+            margin: 20px auto;
+            border-radius: 8px;
+            box-shadow: 0px 0px 10px 0px rgba(255,255,255,0.1);
+        }
+        .info-panel { 
+            height: 5vh;
+            width: 95%;
+            margin: 20px auto;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            background: #444;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0px 0px 10px 0px rgba(255,255,255,0.1);
+        }
+        #startButton {
+            padding: 10px 20px;
+            background-color: #4CAF50; /* Green */
+            border: none;
+            color: white;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+            border-radius: 8px;
+            box-shadow: 0px 0px 10px 0px rgba(255,255,255,0.1);
+            transition: all 0.3s ease-in-out;
+        }
+        #startButton:hover {
+            transform: scale(1.05);
+            box-shadow: 0px 0px 10px 0px rgba(255,255,255,0.2);
+        }
+        h1 {
+            text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.7);
+        }
+    </style>
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <a class="navbar-brand" href="#">PGP</a>
+        <a class="navbar-brand" href="#">INTERMAPS.GEO</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarContent" 
+                aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarContent">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Contact</a>
+                </li>
+            </ul>
+        </div>
     </nav>
-    
-    <div class="container mt-4">
-        <h1>Map Result</h1>
-        {% if map_selection == 'map1' %}
-            <p>You selected London!</p>
-        {% elif map_selection == 'map2' %}
-            <p>You selected China!</p>
-        {% elif map_selection == 'map3' %}
-            <p>You selected Colombia!</p>
-        {% else %}
-            <p>Invalid map selection.</p>
-        {% endif %}
-        <iframe src="{{ url_for('static', filename=map_filename) }}" height="500" width="800"></iframe>
-        <br>
-        <a href="{{ url_for('map_selection') }}" class="btn btn-primary mt-4">Back to Map Selection</a>
+    <div class="info-panel">
+        <div id="score">Puntaje: 0</div>
+        <div id="timer">Tiempo restante: 3:00</div>
     </div>
+    <div id="map"></div>
+    <div class="info-panel">
+        <div id="coords">Donde esta ubicado ( None) </div>
+        <button id="startButton">Iniciar </button>
+    </div>
+    <script>
+        var map = L.map('map').setView([4.6097, -74.0817], 6); // Set to Colombia's coordinates
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+
+        var score = 0;
+        var timer = 30; // 3 minutes in seconds
+        var gameInterval = null;
+
+        function onMapClick(e) {
+            score++;
+            document.getElementById('score').textContent = "High Score: " + score;
+            document.getElementById('coords').textContent = "Last Coordinates: " + e.latlng.toString();
+        }
+
+        document.getElementById('startButton').addEventListener('click', function() {
+            if (gameInterval !== null) {
+                clearInterval(gameInterval);
+                gameInterval = null;
+            }
+            score = 0;
+            timer = 30;
+            gameInterval = setInterval(startGame, 1000);
+        });
+
+        function startGame() {
+            timer--;
+            var minutes = Math.floor(timer / 60);
+            var seconds = timer % 60;
+            document.getElementById('timer').textContent = "Remaining Time: " + minutes + ":" + (seconds < 10 ? '0' : '') + seconds;
+
+            if(timer <= 0) {
+                alert("Game Over! tu puntaje es: " + score);
+                clearInterval(gameInterval);
+                gameInterval = null;
+                score = 0;
+                document.getElementById('score').textContent = "Puntaje: " + score;
+                document.getElementById('coords').textContent = "Last Coordinates: None";
+                timer = 30;
+            }
+        }
+
+        map.on('click', onMapClick);
+    </script>
 </body>
 </html>
