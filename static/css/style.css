@@ -1,0 +1,131 @@
+body {
+    background: #f6f6f6; /* lighter background */
+    color: #333; /* darker text for contrast */
+    font-family: 'Roboto', sans-serif; /* modern sans-serif font */
+}
+
+.navbar {
+    margin-bottom: 40px;
+}
+
+.container,
+.info-panel,
+#map {
+    background: #ddd; /* Different shade of grey */
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.1);
+}
+
+#map {
+    width: 100%;
+    height: 70vh;
+    margin: 20px auto;
+}
+
+.info-panel { 
+    height: 5vh;
+    width: 95%;
+    margin: 20px auto;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+#startButton,
+.map-image {
+    border: none;
+    cursor: pointer;
+    border-radius: 4px; /* consistent border radius */
+    box-shadow: 0px 2px 4px 0px rgba(0,0,0,0.1);
+    transition: all 0.3s ease-in-out;
+}
+
+#startButton {
+    padding: 10px 20px;
+    background-color: #ff6347; /* Vibrant tomato color */
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+}
+
+#startButton:hover,
+.map-image:hover {
+    transform: scale(1.05);
+    box-shadow: 0px 2px 4px 0px rgba(0,0,0,0.2);
+}
+
+.map-image {
+    max-width: 400px;
+    height: auto;
+    margin: 20px;
+}
+
+.map-container {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+}
+
+h1 {
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.7);
+}
+
+label {
+    display: block;
+    margin-bottom: 10px;
+}
+
+input[type="text"],
+input[type="email"] {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+input[type="submit"] {
+    background-color: #ff6347; /* Same as startButton color */
+    color: #fff;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    float: right;
+}
+
+input[type="submit"]:hover {
+    background-color: #e55b3c; /* Darker shade on hover */
+}
+
+.logo-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.logo {
+    max-width: 200px;
+    height: auto;
+}
+@media (max-width: 768px) {
+    #map {
+        height: 80vh; /* Increase map height on small screens */
+    }
+
+    .info-panel {
+        height: 10vh; /* Increase info panel height on small screens */
+    }
+
+    #startButton {
+        width: 100%; /* Full width button on small screens */
+        margin: 20px 0; /* Add some vertical margin */
+    }
+
+    body {
+        font-size: 18px; /* Larger text on small screens */
+    }
+}
