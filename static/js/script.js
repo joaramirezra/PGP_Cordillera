@@ -1,123 +1,151 @@
-class MapGame {
+class JuegoDeMapas {
     constructor() {
         this.map = L.map('map').setView([4.6097, -74.0817], 6);
-        this.score = 0;
-        this.timer = 30;
-        this.gameInterval = null;
-        this.currentQuestion = null;
-        this.currentPolygon = null;
-        this.currentMarker = null;  // New prop
+        this.puntuacion = 0;
+        this.tiempo = 30;
+        this.intervaloJuego = null;
+        this.preguntaActual = null;
+        this.poligonoActual = null;
+        this.marcadorActual = null; 
+        this.intentos = 0;  
+        this.marcadores = [];  // New property to store the markers
+        // ...
         
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             maxZoom: 19,
-            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contribuyentes'
         }).addTo(this.map);
         
-        this.map.on('click', this.onMapClick.bind(this));
-        document.getElementById('startButton').addEventListener('click', this.startGame.bind(this));
+        this.map.on('click', this.enClickMapa.bind(this));
+        document.getElementById('startButton').addEventListener('click', this.iniciarJuego.bind(this));
         
-        // Load the GeoJSON data.
+        // Cargar los datos GeoJSON.
         fetch('static/maps/departments.geojson')
             .then(response => response.json())
             .then(data => {
-                this.questions = data.features;
+                this.preguntas = data.features;
             });
     }
 
-    getRandomQuestion() {
-        let department = this.questions[Math.floor(Math.random() * this.questions.length)];
-        return department;
+    getPreguntaAleatoria() {
+        let departamento = this.preguntas[Math.floor(Math.random() * this.preguntas.length)];
+        return departamento;
     }
 
-    onMapClick(e) {
-        let point = turf.point([e.latlng.lng, e.latlng.lat]);
+    enClickMapa(e) {
+        let punto = turf.point([e.latlng.lng, e.latlng.lat]);
     
-        let polygon;
-        if (this.currentQuestion.geometry.type === "Polygon") {
-            polygon = turf.polygon(this.currentQuestion.geometry.coordinates);
-        } else if (this.currentQuestion.geometry.type === "MultiPolygon") {
-            polygon = turf.multiPolygon(this.currentQuestion.geometry.coordinates);
+        let poligono;
+        if (this.preguntaActual.geometry.type === "Polygon") {
+            poligono = turf.polygon(this.preguntaActual.geometry.coordinates);
+        } else if (this.preguntaActual.geometry.type === "MultiPolygon") {
+            poligono = turf.multiPolygon(this.preguntaActual.geometry.coordinates);
         }
     
-        if (turf.booleanPointInPolygon(point, polygon)) {
-            alert("Felicitaciones acertaste.");
-            this.score++;
-            this.updateScore();
-            this.updateCoords(e.latlng.toString());
+        if (turf.booleanPointInPolygon(punto, poligono)) {
+            alert("Felicitaciones, acertaste.");
+            // Update the score based on the number of attempts.
+            if (this.intentos === 0) {
+                this.puntuacion += 3;
+            } else if (this.intentos === 1) {
+                this.puntuacion += 2;
+            } else if (this.intentos === 2) {
+                this.puntuacion += 1;
+            }
+            this.actualizarPuntuacion();
+            this.actualizarCoords(e.latlng.toString());
+            // Reset the number of attempts for the next question.
+            this.intentos = 0;
         }
         else {
-            alert("Mas suerte para la proxima");
+            alert("Más suerte para la próxima");
+            this.intentos++;
         }
         
-        if (this.currentPolygon) {
-            this.map.removeLayer(this.currentPolygon);
-        }
-
-        // Draw the current question's polygon on the map.
-        let coordinates;
-        if (this.currentQuestion.geometry.type === "Polygon") {
-            coordinates = this.currentQuestion.geometry.coordinates[0];
-        } else if (this.currentQuestion.geometry.type === "MultiPolygon") {
-            coordinates = this.currentQuestion.geometry.coordinates[0][0];
-        }
-        this.currentPolygon = L.polygon(coordinates.map(coord => [coord[1], coord[0]])).addTo(this.map);
-        if (this.currentMarker) {
-            this.map.removeLayer(this.currentMarker);
-        }
-
         // Add a marker at the clicked position.
-        this.currentMarker = L.marker(e.latlng).addTo(this.map);
+        let marcador = L.marker(e.latlng).addTo(this.map);
+        this.marcadores.push(marcador);  // Store the marker
+
+        // If the user has made 3 attempts, show the shape and end the game.
+        if (this.intentos >= 3) {
+            this.mostrarForma();
+            this.finalizarJuego();
+        }
     }
 
-    startGame() {
-        if (this.questions === null) {
-            setTimeout(() => this.startGame(), 1000);
+    mostrarForma() {
+        // Draw the current question's polygon on the map.
+        let coordenadas;
+        if (this.preguntaActual.geometry.type === "Polygon") {
+            coordenadas = this.preguntaActual.geometry.coordinates[0];
+        } else if (this.preguntaActual.geometry.type === "MultiPolygon") {
+            coordenadas = this.preguntaActual.geometry.coordinates[0][0];
+        }
+        this.poligonoActual = L.polygon(coordenadas.map(coord => [coord[1], coord[0]])).addTo(this.map);
+    }
+
+    finalizarJuego() {
+        alert("¡Juego Terminado! Tu puntuación es: " + this.puntuacion);
+        clearInterval(this.intervaloJuego);
+        this.intervaloJuego = null;
+        this.puntuacion = 0;
+        this.actualizarPuntuacion();
+        this.actualizarCoords("¿Quieres empezar de nuevo? Haz clic en Iniciar.");
+        this.tiempo = 30;
+        this.intentos = 0;
+    }
+    iniciarJuego() {
+        if (this.preguntas === null) {
+            setTimeout(() => this.iniciarJuego(), 1000);
             return;
         }
-        if (this.gameInterval !== null) {
-            clearInterval(this.gameInterval);
-            this.gameInterval = null;
+        if (this.intervaloJuego !== null) {
+            clearInterval(this.intervaloJuego);
+            this.intervaloJuego = null;
         }
-        this.score = 0;
-        this.timer = 30;
-        this.gameInterval = setInterval(this.gameTick.bind(this), 1000);
-        this.currentQuestion = this.getRandomQuestion();
-        this.currentQuestion = this.getRandomQuestion();
-
+        this.puntuacion = 0;
+        this.tiempo = 30;
+        this.intervaloJuego = setInterval(this.tickJuego.bind(this), 1000);
+        this.preguntaActual = this.getPreguntaAleatoria();
+        this.preguntaActual = this.getPreguntaAleatoria();
+    
         // Show the question in an alert window.
-        alert('Where is ' + this.currentQuestion.properties.Nombre + '?');
+        alert('¿Dónde está ' + this.preguntaActual.properties.Nombre + '?');
+    
+        // Update the coords element with the coordinates of the current question.
+        this.actualizarCoords('¿Dónde está ' + this.preguntaActual.properties.Nombre + '?');
     }
 
-    updateScore() {
-        document.getElementById('score').textContent = "High Score: " + this.score;
+    actualizarPuntuacion() {
+        document.getElementById('score').textContent = "Puntuación Máxima: " + this.puntuacion;
     }
 
-    updateCoords(coords) {
-        document.getElementById('coords').textContent = "Last Coordinates: " + coords;
+    actualizarCoords(coords) {
+        document.getElementById('coords').textContent = coords;
     }
 
-    updateTimer() {
-        let minutes = Math.floor(this.timer / 60);
-        let seconds = this.timer % 60;
-        document.getElementById('timer').textContent = "Remaining Time: " + minutes + ":" + (seconds < 10 ? '0' : '') + seconds;
+    actualizarTiempo() {
+        let minutos = Math.floor(this.tiempo / 60);
+        let segundos = this.tiempo % 60;
+        document.getElementById('timer').textContent = "Tiempo Restante: " + minutos + ":" + (segundos < 10 ? '0' : '') + segundos;
     }
 
-    gameTick() {
-        this.timer--;
-        this.updateTimer();
-        if(this.timer <= 0) {
-            alert("Game Over! tu puntaje es: " + this.score);
-            clearInterval(this.gameInterval);
-            this.gameInterval = null;
-            this.score = 0;
-            this.updateScore();
-            this.updateCoords("None");
-            this.timer = 30;
+    tickJuego() {
+        this.tiempo--;
+        this.actualizarTiempo();
+        if(this.tiempo <= 0) {
+            alert("¡Juego Terminado! Tu puntuación es: " + this.puntuacion);
+            clearInterval(this.intervaloJuego);
+            this.intervaloJuego = null;
+            this.puntuacion = 0;
+            this.actualizarPuntuacion();
+            this.actualizarCoords("");
+            this.tiempo = 30;
         }
     }
 }
 
-new MapGame();
+new JuegoDeMapas();
 
 $(document).ready(function() {
     $(".map-image").click(function() {

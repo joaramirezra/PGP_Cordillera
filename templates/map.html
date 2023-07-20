@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Map Selection</title>
+    <title>Selección</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
@@ -19,15 +19,15 @@ $(".map-image").click(function() {
 <body>
 
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <a class="navbar-brand" href="#">INTERMAPS.GEO</a>
+        <a class="navbar-brand" href="#">INTERMAPAS.GEO</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarContent" 
-                aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
+                aria-controls="navbarContent" aria-expanded="false" aria-label="Alternar navegación">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarContent">
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Contact</a>
+                    <a class="nav-link" href="#">Contacto</a>
                 </li>
             </ul>
         </div>
@@ -38,8 +38,8 @@ $(".map-image").click(function() {
         <div class="map-container">
             <form id="map-selection-form" method="POST" action="/map">
                 <input type="hidden" name="map">
-                <img class="map-image img-fluid" id="map1" src="/static/images/map1.jpg" alt="Map 1">
-                <img class="map-image img-fluid" id="map2" src="/static/images/map2.jpg" alt="Map 2">
+                <img class="map-image img-fluid" id="map1" src="/static/images/map1.jpg" alt="Mapa 1">
+                <img class="map-image img-fluid" id="map2" src="/static/images/map2.jpg" alt="Mapa 2">
             </form>
         </div>
     </div>

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Map Game</title>
+    <title>Juego de Mapas</title>
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
@@ -16,26 +16,26 @@
 
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <a class="navbar-brand" href="#">INTERMAPS.GEO</a>
+        <a class="navbar-brand" href="#">INTERMAPAS.GEO</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarContent" 
-                aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
+                aria-controls="navbarContent" aria-expanded="false" aria-label="Alternar navegación">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarContent">
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Contact</a>
+                    <a class="nav-link" href="#">Contacto</a>
                 </li>
             </ul>
         </div>
     </nav>
     <div class="info-panel">
-        <div id="score">Puntaje: 0</div>
+        <div id="score">Puntuación: 0</div>
         <div id="timer">Tiempo restante: 0:30</div>
     </div>
     <div id="map"></div>
     <div class="info-panel">
-        <div id="coords">Donde esta ubicado ( None) </div>
+        <div id="coords">Hola,Bienvenido !   </div>
         <button id="startButton">Iniciar </button>
     </div>
     <script src="{{ url_for('static', filename='js/script.js') }}"></script>
