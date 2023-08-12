@@ -17,6 +17,7 @@ def index():
     return render_template('index.html')
 
 @app.route('/map', methods=['GET', 'POST'])
+@app.route('/map', methods=['GET', 'POST'])
 def map_selection():
     if request.method == 'POST':
         map_selection = request.form['map']
@@ -25,11 +26,16 @@ def map_selection():
             # Handle invalid selection, maybe return an error message
             return "Invalid map selection", 400
 
-        # Redirect to the map processing page with the map selection as an argument
-        return redirect(url_for('process_map'))
+        # Redirect to the process_map page with the map selection as an argument
+        return redirect(url_for('process_map', map_selection=map_selection))
 
     return render_template('map.html')
 
+
+@app.route('/scores', methods=['GET'])
+def scores():  
+    # Render the scores page
+    return render_template('scores.html')
 
 @app.route('/process_map', methods=['GET'])
 def process_map():
@@ -38,7 +44,5 @@ def process_map():
     return render_template('process_map.html')
 
 
-
 if __name__ == '__main__':
     app.run(debug=True)
-

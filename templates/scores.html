@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Juego de Mapas</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="#">INTERMAPAS.GEO</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarContent"
+                aria-controls="navbarContent" aria-expanded="false" aria-label="Alternar navegación">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarContent">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Contacto</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <div class="container mt-5">
+        <!-- Score display -->
+        <div class="mb-4">
+            <h1 id="score">Tú puntuación es: 0</h1> 
+            <h1 id="score-time">Tiempo usado: 0 segundos</h1>
+
+            <!-- Added buttons -->
+            <div class="mt-4">
+                <button class="btn btn-primary" onclick="window.location.href='/map'">Jugar nuevamente</button>
+                <button class="btn btn-secondary" onclick="window.location.href='/'">Inicio</button>
+            </div>
+
+        </div>
+
+        <!-- Rankings display -->
+        <div class="rankings-panel">
+            <h2>Rankings</h2>
+            <ul id="rankings-list">
+                <li>Jugador 1: 100 puntos</li>
+                <li>Jugador 2: 90 puntos</li>
+                <li>Jugador 3: 85 puntos</li>
+            </ul>
+        </div>
+    </div>
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const score = urlParams.get('score');
+        const time = urlParams.get('time');
+        if (score) {
+            document.getElementById('score').textContent = "Tú puntuación es: " + score;
+        }
+        if (time) {
+            document.getElementById('score-time').textContent = "Tiempo usado: " + time + " segundos";
+        }
+    </script>
+
+</body>
+</html>

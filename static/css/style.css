@@ -129,3 +129,6 @@ input[type="submit"]:hover {
         font-size: 18px; /* Larger text on small screens */
     }
 }
+.no-pointer-events {
+    pointer-events: none;
+}
