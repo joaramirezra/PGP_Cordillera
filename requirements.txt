@@ -8,3 +8,4 @@ Werkzeug==2.0.3
 numpy==1.25.1
 folium==0.12.1
 flask_sqlalchemy==3.0.5
+Werkzeug==2.2.2
