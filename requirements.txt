@@ -10,6 +10,7 @@ cligj==0.7.2
 enum34==1.1.10
 Fiona==1.8.22
 Flask==1.1.4
+SQLAlchemy==1.4.15
 folium==0.8.3
 idna==2.10
 ipaddress==1.0.17
@@ -18,4 +19,5 @@ Jinja2==2.11.3
 keyring==10.6.0
 keyrings.alt==3.0
 MarkupSafe==1.1.1
+flask_sqlalchemy=2.5.1
 
