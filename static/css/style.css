@@ -1,22 +1,31 @@
+/* Define CSS variables */
+:root {
+    --primary-bg-color: #ff6347;
+    --shadow-light: 0px 0px 10px 0px rgba(0,0,0,0.1);
+    --shadow-dark: 0px 2px 4px 0px rgba(0,0,0,0.2);
+}
+
 body {
-    background: #f6f6f6; /* lighter background */
-    color: #333; /* darker text for contrast */
-    font-family: 'Roboto', sans-serif; /* modern sans-serif font */
+    background: #f6f6f6;
+    color: #333;
+    font-family: 'Roboto', sans-serif;
 }
 
 .navbar {
     margin-bottom: 40px;
 }
 
+/* Containers */
 .container,
 .info-panel,
 #map {
-    background: #ddd; /* Different shade of grey */
+    background: #ddd;
     padding: 20px;
     border-radius: 8px;
-    box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.1);
+    box-shadow: var(--shadow-light);
 }
 
+/* Map Styles */
 #map {
     width: 100%;
     height: 70vh;
@@ -26,35 +35,40 @@ body {
 .info-panel { 
     height: 5vh;
     width: 95%;
-    margin: 20px auto;
+    margin: var(--m-20-auto); /* Using the CSS variable */
     display: flex;
     justify-content: space-around;
     align-items: center;
 }
-#startButton,
-.map-image {
-    border: none;
-    cursor: pointer;
-    border-radius: 4px; /* consistent border radius */
-    box-shadow: 0px 2px 4px 0px rgba(0,0,0,0.1);
-    transition: all 0.3s ease-in-out;
-}
 
-#startButton {
-    padding: 10px 20px;
-    background-color: #ff6347; /* Vibrant tomato color */
-    color: white;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    margin: 4px 2px;
+/* Button and Image Styles */
+#startButton,
+.map-image,
+button,
+input[type="submit"] {
+    border-radius: 4px;
+    box-shadow: var(--shadow-light);
+    transition: all 0.3s ease-in-out;
 }
 
 #startButton:hover,
 .map-image:hover {
     transform: scale(1.05);
-    box-shadow: 0px 2px 4px 0px rgba(0,0,0,0.2);
+    box-shadow: var(--shadow-dark);
+}
+
+#startButton,
+input[type="submit"] {
+    background-color: var(--primary-bg-color);
+    color: #fff;
+    padding: 10px 15px;
+    border: none;
+    cursor: pointer;
+}
+
+#startButton:hover,
+input[type="submit"]:hover {
+    background-color: #e55b3c;
 }
 
 .map-image {
@@ -63,12 +77,7 @@ body {
     margin: 20px;
 }
 
-.map-container {
-    display: flex;
-    justify-content: space-around;
-    flex-wrap: wrap;
-}
-
+/* Form Styles */
 h1 {
     text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.7);
 }
@@ -87,20 +96,7 @@ input[type="email"] {
     box-sizing: border-box;
 }
 
-input[type="submit"] {
-    background-color: #ff6347; /* Same as startButton color */
-    color: #fff;
-    padding: 10px 15px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    float: right;
-}
-
-input[type="submit"]:hover {
-    background-color: #e55b3c; /* Darker shade on hover */
-}
-
+/* Logo Styles */
 .logo-container {
     display: flex;
     justify-content: center;
@@ -111,24 +107,31 @@ input[type="submit"]:hover {
     max-width: 200px;
     height: auto;
 }
+
+/* Responsive Styles */
 @media (max-width: 768px) {
     #map {
-        height: 80vh; /* Increase map height on small screens */
+        height: 80vh;
     }
 
     .info-panel {
-        height: 10vh; /* Increase info panel height on small screens */
+        height: 10vh;
     }
 
     #startButton {
-        width: 100%; /* Full width button on small screens */
-        margin: 20px 0; /* Add some vertical margin */
+        width: 100%;
+        margin: 20px 0;
     }
 
     body {
-        font-size: 18px; /* Larger text on small screens */
+        font-size: 18px;
     }
 }
+
 .no-pointer-events {
     pointer-events: none;
+}
+
+.center-text {
+    text-align: center;
 }

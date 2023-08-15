@@ -7,7 +7,6 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 
-
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <a class="navbar-brand" href="#">INTERMAPS.GEO</a>
@@ -24,13 +23,23 @@
         </div>
     </nav>
 
+    <!-- Flash messages section -->
+    <div class="container mt-3">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }}">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+    </div>
+
     <div class="container">
         <div class="logo-container">
             <img src="/static/images/logo.jpeg" alt="Logo" class="logo">
         </div>
-        <h3 style="text-align: center;">Intermaps.geo - Beta</h3>
-
-        <h1>Registro de usuario</h1>
+        <h3 class="center-text">Intermaps.geo - Beta</h3>
+        <h1 class="center-text">Registro de Jugador</h1>
         <form method="POST">
             <div class="form-group">
                 <label for="username">Nombre:</label>
