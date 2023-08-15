@@ -32,14 +32,28 @@ class JuegoDeMapas {
         }).addTo(this.map);
     }
 
+
     loadMapData() {
-        fetch('static/maps/departments.geojson')
+        let geojsonURL = '';
+    
+        if (window.mapSelection === 'map1') {
+            geojsonURL = 'static/maps/Shp_cuencas.geojson';
+        } else if (window.mapSelection === 'map2') {
+            geojsonURL = 'static/maps/Shp_fisiografía.geojson';
+        } else {
+            console.error('Invalid map selection:', window.mapSelection);
+            return; // Exit the function early if the map selection is invalid.
+        }
+    
+        fetch(geojsonURL)
             .then(response => response.json())
             .then(data => {
                 this.preguntas = data.features;
                 this.mostrarTodasLasFormas();
             });
+            
     }
+    
 
     getPreguntaAleatoria() {
         const index = Math.floor(Math.random() * this.preguntas.length);
@@ -214,7 +228,9 @@ class JuegoDeMapas {
     }
 }
 
-new JuegoDeMapas();
+document.addEventListener('DOMContentLoaded', (event) => {
+    new JuegoDeMapas();
+});
 
 $(document).ready(function() {
     $(".map-image").click(function() {

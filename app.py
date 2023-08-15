@@ -93,8 +93,8 @@ def game_finish():
 @app.route('/process_map', methods=['GET'])
 def process_map():
     map_selection = request.args.get('map_selection')
-    user_email = session.get('user_email', '')  # Fetch email from session or default to an empty string
-    return render_template('process_map.html', userEmail=user_email)
+    user_email = session.get('user_email', '')  
+    return render_template('process_map.html', userEmail=user_email, mapSelection=map_selection)
 
 
 if __name__ == '__main__':
